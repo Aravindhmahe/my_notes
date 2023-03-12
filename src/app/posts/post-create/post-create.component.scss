@@ -1,0 +1,41 @@
+mat-card {
+  button {
+    width: max-content;
+    margin: 20px;
+  }
+}
+
+mat-form-field {
+  margin: 16px;
+  margin-bottom: 10px;
+}
+textarea {
+  width: 100%;
+}
+
+:host {
+  ::ng-deep {
+    .mat-mdc-form-field-error-wrapper {
+      padding: 0px;
+    }
+
+    .mat-mdc-extended-fab {
+      height: 40px;
+      border-radius: 14px;
+    }
+  }
+}
+
+input[type="file"] {
+  visibility: hidden;
+}
+
+.image-preview {
+  height: 10rem;
+  width: 150px;
+  img {
+    height: 100%;
+    width: 100%;
+    margin-left: 20px;
+  }
+}

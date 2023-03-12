@@ -1,0 +1,23 @@
+.expansion-panel {
+  margin-bottom: 10px;
+}
+
+.mat-mdc-card-content {
+  text-align: center;
+}
+
+.post-image {
+  width: 100%;
+
+  img {
+    width: 100%;
+  }
+}
+
+.paginator-card {
+  margin-top: 30px;
+  .mat-mdc-card-content {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}
