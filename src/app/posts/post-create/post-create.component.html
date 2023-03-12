@@ -1,0 +1,47 @@
+<form [formGroup]="createPostForm">
+  <mat-card>
+    <mat-form-field>
+      <mat-label>Post Title</mat-label>
+      <input type="text" matInput formControlName="title" />
+      <mat-error *ngIf="createPostForm.controls['title'].invalid">
+        Please provide a suitable title.
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Leave a message</mat-label>
+      <textarea rows="6" matInput formControlName="content"></textarea>
+      <mat-error
+        *ngIf="createPostForm.controls['content'].hasError('required')"
+      >
+        Form Field is required.
+      </mat-error>
+    </mat-form-field>
+    <div>
+      <button
+        mat-fab
+        extended
+        color="primary"
+        (click)="filePicker.click()"
+        type="button"
+      >
+        <mat-icon fontIcon="upload"></mat-icon>
+        Upload
+      </button>
+      <input type="file" #filePicker (change)="fileUpload($event)" />
+    </div>
+    <div class="image-preview" *ngIf="imagePreview && imagePreview !== ''">
+      <img [src]="imagePreview" accept=".png, .jpg, .jpeg" />
+    </div>
+    <button
+      mat-raised-button
+      color="accent"
+      type="button"
+      (click)="onSavePost()"
+      [disabled]="createPostForm.invalid"
+    >
+      Submit
+    </button>
+  </mat-card>
+</form>
+
+<p></p>
