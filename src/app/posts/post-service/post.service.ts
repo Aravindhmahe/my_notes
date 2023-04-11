@@ -28,7 +28,7 @@ export class PostService {
                 content: post.content,
                 id: post._id,
                 imagePath: post.imagePath,
-                creatorId: post.creator
+                creatorId: post.creator,
               };
             }),
             maxPosts: response.maxPosts,
@@ -36,7 +36,6 @@ export class PostService {
         })
       )
       .subscribe((response) => {
-        console.log(response);
         this.posts = response.posts;
         this.updatedPosts.next({
           posts: [...this.posts],

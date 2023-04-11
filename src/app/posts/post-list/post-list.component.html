@@ -7,7 +7,7 @@
       <img [src]="post.imagePath" [alt]="post.title" />
     </div>
 
-    <mat-action-row *ngIf="isAuthenticated">
+    <mat-action-row *ngIf="isAuthenticated && userId === post.creatorId">
       <mat-icon
         class="post-icon"
         fontIcon="edit"
