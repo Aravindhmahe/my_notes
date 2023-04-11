@@ -37,7 +37,7 @@ router.post(
       title: req.body.title,
       content: req.body.content,
       imagePath: url + "/images/" + req.file.filename,
-      creator: req.userData.userid
+      creator: req.userData.userid,
     });
     post.save().then((createdPost) => {
       res.status(201).json({
@@ -63,9 +63,17 @@ router.put(
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
+      creator: req.userData.userid,
     });
-    Post.updateOne({ _id: req.params.id }, post).then((updatedPost) => {
-      res.status(200).json({ message: `Post updated`, id: updatedPost });
+    Post.updateOne(
+      { _id: req.params.id, creator: req.userData.userid },
+      post
+    ).then((updatedPost) => {
+      if (updatedPost.modifiedCount > 0) {
+        res.status(200).json({ message: `Post updated`, id: updatedPost });
+      } else {
+        res.status(401).json({ message: `Not Authorized` });
+      }
     });
   }
 );
@@ -108,8 +116,15 @@ router.get(`/api/post/:id`, (req, res) => {
 });
 
 router.delete(`/api/deletePost/:id`, checkAuth, (req, res) => {
-  Post.findByIdAndDelete({ _id: req.params.id }).then((result) => {
-    res.status(200).json({ message: `ID DELETED SUCCESSFULLY` });
+  Post.deleteOne({
+    _id: req.params.id,
+    creator: req.userData.userid,
+  }).then((result) => {
+    if (result.deletedCount > 0) {
+      res.status(200).json({ message: `ID DELETED SUCCESSFULLY` });
+    } else {
+      res.status(401).json({ message: `Not Authorized` });
+    }
   });
 });
 

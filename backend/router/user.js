@@ -47,7 +47,9 @@ router.post("/api/auth/login", (req, res) => {
         "secretKey",
         { expiresIn: "1h" }
       );
-      return res.status(200).json({ token: token, expiresIn: 3600 });
+      return res
+        .status(200)
+        .json({ token: token, expiresIn: 3600, userId: loggedInUser._id });
     })
     .catch((error) => {
       return res.status(401).json({ message: "Authentication failed" + error });
