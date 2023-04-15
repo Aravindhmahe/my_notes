@@ -35,8 +35,13 @@ export class SignupComponent {
       email: formControls['email'].value,
       password: formControls['password'].value,
     };
-    this.authService.registerUser(request).subscribe((response) => {
-      console.log(response);
+    this.authService.registerUser(request).subscribe({
+      next: (response) => {
+        console.log(response);
+      },
+      error: (error) => {
+        console.error('Sign up service failure: ', error);
+      },
     });
   }
 }

@@ -39,12 +39,17 @@ router.post(
       imagePath: url + "/images/" + req.file.filename,
       creator: req.userData.userid,
     });
-    post.save().then((createdPost) => {
-      res.status(201).json({
-        message: `Success`,
-        post: { ...createdPost, id: createdPost._id },
+    post
+      .save()
+      .then((createdPost) => {
+        res.status(201).json({
+          message: `Post Created Successfully !!`,
+          post: { ...createdPost, id: createdPost._id },
+        });
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Post creation failed !!" });
       });
-    });
   }
 );
 
@@ -65,16 +70,19 @@ router.put(
       imagePath: imagePath,
       creator: req.userData.userid,
     });
-    Post.updateOne(
-      { _id: req.params.id, creator: req.userData.userid },
-      post
-    ).then((updatedPost) => {
-      if (updatedPost.modifiedCount > 0) {
-        res.status(200).json({ message: `Post updated`, id: updatedPost });
-      } else {
-        res.status(401).json({ message: `Not Authorized` });
-      }
-    });
+    Post.updateOne({ _id: req.params.id, creator: req.userData.userid }, post)
+      .then((updatedPost) => {
+        if (updatedPost.modifiedCount > 0) {
+          res
+            .status(200)
+            .json({ message: `Post updated Successfully`, id: updatedPost });
+        } else {
+          res.status(401).json({ message: `Not Authorized` });
+        }
+      })
+      .catch(() => {
+        res.status(500).json({ message: "Post updation failed !!" });
+      });
   }
 );
 
@@ -102,30 +110,41 @@ router.get(`/api/posts`, (req, res, next) => {
         posts: fetchedDocuments,
         maxPosts: count,
       });
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Post updation failed !!" });
     });
 });
 
 router.get(`/api/post/:id`, (req, res) => {
-  Post.findById(req.params.id).then((response) => {
-    if (response) {
-      res.status(200).json(response);
-    } else {
-      res.status(404).json({ message: `Post not found` });
-    }
-  });
+  Post.findById(req.params.id)
+    .then((response) => {
+      if (response) {
+        res.status(200).json(response);
+      } else {
+        res.status(404).json({ message: `Post not found` });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Post not found !!" });
+    });
 });
 
 router.delete(`/api/deletePost/:id`, checkAuth, (req, res) => {
   Post.deleteOne({
     _id: req.params.id,
     creator: req.userData.userid,
-  }).then((result) => {
-    if (result.deletedCount > 0) {
-      res.status(200).json({ message: `ID DELETED SUCCESSFULLY` });
-    } else {
-      res.status(401).json({ message: `Not Authorized` });
-    }
-  });
+  })
+    .then((result) => {
+      if (result.deletedCount > 0) {
+        res.status(200).json({ message: `Post Deleted Successfully !!` });
+      } else {
+        res.status(401).json({ message: `Not Authorized` });
+      }
+    })
+    .catch(() => {
+      res.status(500).json({ message: "Post deletion failed !!" });
+    });
 });
 
 module.exports = router;

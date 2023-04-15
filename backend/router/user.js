@@ -20,7 +20,7 @@ router.post("/api/auth/signup", (req, res) => {
           .json({ message: "User saved successfully", result: result });
       })
       .catch((error) => {
-        res.status(500).json({ error: error.errors });
+        res.status(500).json({ message: "Invalid User credentails !!" });
       });
   });
 });
@@ -31,13 +31,17 @@ router.post("/api/auth/login", (req, res) => {
     .then((user) => {
       loggedInUser = user;
       if (!user) {
-        return res.status(401).json({ message: "Authentication failed" });
+        return res
+          .status(401)
+          .json({ message: "Invalid Authentication credentails !!" });
       }
       return brcrypt.compare(req.body.password, user.password);
     })
     .then((result) => {
       if (!result) {
-        return res.status(401).json({ message: "Authentication failed" });
+        return res
+          .status(401)
+          .json({ message: "Invalid Authentication credentails !!" });
       }
       const token = jwt.sign(
         {
@@ -52,7 +56,9 @@ router.post("/api/auth/login", (req, res) => {
         .json({ token: token, expiresIn: 3600, userId: loggedInUser._id });
     })
     .catch((error) => {
-      return res.status(401).json({ message: "Authentication failed" + error });
+      return res
+        .status(401)
+        .json({ message: "Invalid Authentication credentails !!" });
     });
 });
 
