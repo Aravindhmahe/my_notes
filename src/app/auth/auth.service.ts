@@ -2,18 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { UserDetails } from './models/userdetails.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  private URL_DOMAIN = `http://localhost:3000/`;
   private authToken!: string;
   private isAuthenticated!: boolean;
   private authTimer!: any;
   private userId!: string | null;
   private authStatusListener = new Subject();
+  private URL_DOMAIN = environment.apiDomain;
 
   constructor(private http: HttpClient, private router: Router) {}
 
