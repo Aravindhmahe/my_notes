@@ -1,11 +1,8 @@
-const express = require("express");
 const jwt = require("jsonwebtoken");
 const SignUp = require("../model/auth");
 const brcrypt = require("bcrypt");
 
-const router = express.Router();
-
-router.post("/api/auth/signup", (req, res) => {
+exports.createUser = (req, res) => {
   brcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new SignUp({
       username: req.body.username,
@@ -23,9 +20,9 @@ router.post("/api/auth/signup", (req, res) => {
         res.status(500).json({ message: "Invalid User credentails !!" });
       });
   });
-});
+};
 
-router.post("/api/auth/login", (req, res) => {
+exports.loginUser = (req, res) => {
   let loggedInUser;
   SignUp.findOne({ email: req.body.email })
     .then((user) => {
@@ -60,6 +57,4 @@ router.post("/api/auth/login", (req, res) => {
         .status(401)
         .json({ message: "Invalid Authentication credentails !!" });
     });
-});
-
-module.exports = router;
+};

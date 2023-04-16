@@ -8,10 +8,10 @@
       ></span
     >
     <span *ngIf="!isAuthenticated"
-      ><a routerLink="/login" mat-button>Login</a></span
+      ><a routerLink="/auth/login" mat-button>Login</a></span
     >
     <span *ngIf="!isAuthenticated"
-      ><a routerLink="/signup" mat-button>Sign up</a></span
+      ><a routerLink="/auth/signup" mat-button>Sign up</a></span
     >
     <span *ngIf="isAuthenticated"
       ><button mat-button (click)="logout()">Log out</button></span

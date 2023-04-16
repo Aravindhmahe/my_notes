@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { map, Observable, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { Post } from '../post.model';
 import { GetPosts } from './post-service.model';
 
@@ -11,7 +12,7 @@ import { GetPosts } from './post-service.model';
 export class PostService {
   private posts: Post[] = [];
   private updatedPosts = new Subject<{ posts: Post[]; postCount: number }>();
-  private URL_DOMAIN = `http://localhost:3000/`;
+  private URL_DOMAIN = environment.apiDomain;
 
   constructor(private http: HttpClient, private router: Router) {}
 
